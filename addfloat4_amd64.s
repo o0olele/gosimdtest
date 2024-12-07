@@ -1,3 +1,6 @@
+//go:build amd64
+// +build amd64
+
 #include "textflag.h"
 
 // func AddFloat4(a, b [4]float32) [4]float32

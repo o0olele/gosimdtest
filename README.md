@@ -73,7 +73,19 @@
     > @hi65435: Yeah I guess SSE code is only truly a blast when it's larger chunks of code.
     
   this is one possible reason.
+# Arm
+- Now i tried on arm64 (RaspberryPi 4). the result is:
+    ~~~shell
+    go test -bench="ADD$" -benchtime=1s .
+    goos: linux
+    goarch: arm64
+    pkg: o0olele.github.com/simd
+    BenchmarkADD/SIMD-4         	80144370	        14.91 ns/op
+    BenchmarkADD/No-SIMD-4      	99366718	        11.29 ns/op
+    PASS
+    ok  	o0olele.github.com/simd	3.288s
+    ~~~
+
 # What's Next?
 - try to add complex simd funcs like matrix operations and find the differences.
-- try on arm cpus.
 - try in c/c++.
