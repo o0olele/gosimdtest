@@ -3,6 +3,7 @@ package gosimdtest
 import (
 	"math/rand/v2"
 	"runtime"
+	"strings"
 	"testing"
 )
 
@@ -36,11 +37,13 @@ func BenchmarkADD(b *testing.B) {
 		}
 	})
 
-	b.Run("SIMD-F4", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			rs[i%num] = AddFloat4(as[i%num], bs[i%num])
-		}
-	})
+	if !strings.Contains(runtime.GOARCH, "arm") {
+		b.Run("SIMD-F4", func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				rs[i%num] = AddFloat4(as[i%num], bs[i%num])
+			}
+		})
+	}
 
 	b.Run("No-SIMD", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
