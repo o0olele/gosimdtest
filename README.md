@@ -86,6 +86,45 @@
     ok  	o0olele.github.com/simd	3.288s
     ~~~
 
+# Matrix
+- matrix mul operation (asm code from [vek](https://github.com/viterin/vek)), the result is:
+    ~~~shell
+    goos: linux
+    goarch: amd64
+    pkg: o0olele.github.com/gosimdtest
+    cpu: 13th Gen Intel(R) Core(TM) i5-13600KF
+    === RUN   BenchmarkMatMul
+    BenchmarkMatMul
+    === RUN   BenchmarkMatMul/SIMD
+    BenchmarkMatMul/SIMD
+    BenchmarkMatMul/SIMD-20                 269824773                4.737 ns/op           0 B/op          0 allocs/op
+    === RUN   BenchmarkMatMul/No-SIMD
+    BenchmarkMatMul/No-SIMD
+    BenchmarkMatMul/No-SIMD-20              50856106                24.30 ns/op            0 B/op          0 allocs/op
+    PASS
+    ok      o0olele.github.com/gosimdtest   2.998s
+    ~~~
+- now the result is expected faster.
+
+# Array with large size
+- i also tried with different size of arrays (use [vek](https://github.com/viterin/vek)), the result is:
+    ~~~shell
+    goos: windows
+    goarch: amd64
+    pkg: github.com/viterin/vek/internal/functions
+    cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     
+    BenchmarkADD/SIMD-4-16         	353418499	         3.427 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkADD/NO-SIMD-4-16      	572597487	         2.174 ns/op	       0 B/op	       0 allocs/op
+
+    BenchmarkADD/SIMD-16-16        	159170994	         7.580 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkADD/NO-SIMD-16-16     	136259923	         8.581 ns/op	       0 B/op	       0 allocs/op
+
+    BenchmarkADD/SIMD-32-16        	249333396	         4.937 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkADD/NO-SIMD-32-16     	100000000	        15.82 ns/op	       0 B/op	       0 allocs/op
+
+    BenchmarkADD/SIMD-64-16        	133381720	         8.695 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkADD/NO-SIMD-64-16     	39249933	        33.63 ns/op	       0 B/op	       0 allocs/op
+    ~~~
+- it seems that the performance of SIMD only is better than No-SIMD when the size of array is larger.
 # What's Next?
-- try to add complex simd funcs like matrix operations and find the differences.
 - try in c/c++.
